@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cousin's Beach: The 10-Chapter Summer</title>
+    <title>Cousin's Beach: The Targeted Summer</title>
     <style>
-        /* CSS: Beautiful, clean coastal aesthetic */
+        /* CSS: Smooth coastal aesthetics */
         body {
             background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
             color: #334155;
@@ -85,7 +85,7 @@
             transform: translateY(-2px);
         }
 
-        /* Affiliate store styling */
+        /* DYNAMIC STOREFRONT BANNER */
         .shop-banner {
             max-width: 800px;
             width: 100%;
@@ -95,6 +95,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             border: 1px solid #e2e8f0;
             text-align: center;
+            transition: all 0.5s ease-in-out; /* Smooth transition when items swap! */
         }
         .shop-title { color: #0f172a; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
         .shop-subtitle { color: #64748b; font-size: 0.95rem; margin-bottom: 25px; }
@@ -102,9 +103,10 @@
         .product-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; transition: all 0.2s; }
         .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(14, 165, 233, 0.1); }
         .product-icon { font-size: 2.5rem; margin-bottom: 12px; }
-        .product-name { font-weight: 600; color: #1e293b; margin-bottom: 6px; }
+        .product-name { font-weight: 600; color: #1e293b; margin-bottom: 6px; font-size: 0.95rem; text-align: center; height: 40px;}
         .product-price { color: #0284c7; font-weight: 700; margin-bottom: 15px; }
         .shop-link { display: inline-block; background-color: #0284c7; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; width: 80%; text-align: center; }
+        .shop-link:hover { background-color: #0369a1; }
     </style>
 </head>
 <body>
@@ -122,23 +124,21 @@
     </div>
 
     <footer class="shop-banner">
-        <div class="shop-title">🛍️ Get the Cousin's Beach Look</div>
-        <div class="shop-subtitle">Love the book vibes? Grab the official summer essentials below!</div>
-        <div class="products-grid">
-            <div class="product-card"> <div class="product-icon">📚</div> <div class="product-name">The Complete Book Trilogy</div> <div class="product-price">$24.99</div> <a href="#" target="_blank" class="shop-link">View on Amazon</a> </div>
-            <div class="product-card"> <div class="product-icon">🧥</div> <div class="product-name">Conrad's Team Sweatshirt</div> <div class="product-price">$39.99</div> <a href="#" target="_blank" class="shop-link">View Details</a> </div>
-            <div class="product-card"> <div class="product-icon">🕶️</div> <div class="product-name">Cousin's Retro Sunglasses</div> <div class="product-price">$14.99</div> <a href="#" target="_blank" class="shop-link">Shop Item</a> </div>
-        </div>
+        <div class="shop-title" id="store-headline">🛍️ Cousin's Beach Prep Shop</div>
+        <div class="shop-subtitle" id="store-subtext">Get ready for your beach house check-in!</div>
+        
+        <div class="products-grid" id="products-container">
+            </div>
     </footer>
 
     <script>
-        // GAME ENGINE STATE
+        // GAME ENGINE DATA
         let inventory = "Nothing";
         let conradPoints = 0;
         let jerePoints = 0;
-        let currentState = 1; // Tracks our current story node ID
+        let currentState = 1;
 
-        // THE 10+ LAYER SCRIPT MAP
+        // THE STORY SCRIPT MAP
         const storyNodes = {
             1: {
                 layer: "1/11",
@@ -219,23 +219,56 @@
                     { text: "Check your look and head downstairs to meet your date.", nextState: 11, points: { conrad: 0, jere: 0 } }
                 ]
             },
-            11: {
-                layer: "9/11",
-                // This text will transform inside our script using an INVENTORY CHECKPOINT!
-                text: "Dynamic Checking...", 
-                choices: [] 
+            11: { layer: "9/11", text: "Dynamic Checking...", choices: [] }
+        };
+
+        // TARGETED MARKETING MARKETPLACE DATABASE
+        const storeCatalog = {
+            default: {
+                headline: "🛍️ Cousin's Beach Prep Shop",
+                subtext: "Love the books? Bring the official lifestyle home!",
+                products: [
+                    { icon: "📚", name: "The Complete Book Trilogy Box Set", price: "$24.99", link: "#" },
+                    { icon: "🧥", name: "Conrad's Team Blue Sweatshirt", price: "$39.99", link: "#" },
+                    { icon: "🕶️", name: "Cousin's Retro Tortoiseshell Sunglasses", price: "$14.99", link: "#" }
+                ]
+            },
+            bonfire: {
+                headline: "🔥 The Dune Bonfire Collection",
+                subtext: "Look stylish while hanging out by the ocean campfires!",
+                products: [
+                    { icon: "🪵", name: "Portable Beach Fire Pit Bowl", price: "$45.00", link: "#" },
+                    { icon: "🏖️", name: "Oversized Turkish Beach Blanket", price: "$29.99", link: "#" },
+                    { icon: "📻", name: "Waterproof Retro Bluetooth Speaker", price: "$34.95", link: "#" }
+                ]
+            },
+            boardwalk: {
+                headline: "🎟️ Boardwalk & Arcade Essentials",
+                subtext: "Gear up for tournament days and gaming sessions!",
+                products: [
+                    { icon: "🏆", name: "Custom Golden Winner Trophy Prop", price: "$12.99", link: "#" },
+                    { icon: "👟", name: "Comfortable Retro Canvas Sneakers", price: "$49.99", link: "#" },
+                    { icon: "🧢", name: "Cousin's Beach Vintage Baseball Cap", price: "$19.99", link: "#" }
+                ]
+            },
+            formal: {
+                headline: "✨ Country Club Debutante Lookbook",
+                subtext: "Dress to impress for the most dramatic night of the summer.",
+                products: [
+                    { icon: "👗", name: "Elegant White Debutante Tulle Gown", price: "$89.99", link: "#" },
+                    { icon: "👔", name: "Classic Slim-Fit Tuxedo Bowtie Set", price: "$15.50", link: "#" },
+                    { icon: "💎", name: "Silver Infinity Pendant Pearl Earring Set", price: "$32.00", link: "#" }
+                ]
             }
         };
 
-        // RENDER FUNCTION: Updates the screen automatically using our map
+        // RENDER FUNCTION: Updates the game and targeted store simultaneously
         function renderScene() {
             const node = storyNodes[currentState];
             
-            // Update trackers
             document.getElementById('layer-tracker').innerText = `Layer: ${node.layer}`;
             document.getElementById('inventory-tracker').innerText = `🎒 Pocket: ${inventory}`;
 
-            // SPECIAL INVENTORY CHECKPOINT FOR LAYER 11
             if (currentState === 11) {
                 handleInventoryCheckpoint();
                 return;
@@ -243,7 +276,7 @@
 
             document.getElementById('story-text').innerHTML = node.text;
 
-            // Clear and rebuild choice buttons
+            // Render choice buttons
             const choicesContainer = document.getElementById('choices-container');
             choicesContainer.innerHTML = "";
 
@@ -252,7 +285,6 @@
                 button.className = 'game-btn';
                 button.innerText = choice.text;
                 
-                // Add the click event logic
                 button.onclick = () => {
                     if (choice.item) inventory = choice.item;
                     if (choice.points) {
@@ -264,9 +296,44 @@
                 };
                 choicesContainer.appendChild(button);
             });
+
+            // TARGETED STORE TRIGGER LOGIC
+            // Swaps items based on what chapter the user is currently looking at
+            if (currentState === 4 || currentState === 5 || currentState === 6) {
+                updateDynamicStore('bonfire');
+            } else if (currentState === 7 || currentState === 8 || currentState === 9) {
+                updateDynamicStore('boardwalk');
+            } else if (currentState === 10) {
+                updateDynamicStore('formal');
+            } else {
+                updateDynamicStore('default');
+            }
         }
 
-        // LAYER 11 INVENTORY CHECKPOINT FUNCTION
+        // REWRITES THE STOREFRONT CONTENT DYNAMICALLY
+        function updateDynamicStore(catalogKey) {
+            const data = storeCatalog[catalogKey];
+            
+            // Swap head text
+            document.getElementById('store-headline').innerText = data.headline;
+            document.getElementById('store-subtext').innerText = data.subtext;
+
+            // Clear and inject matching contextual products
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = "";
+
+            data.products.forEach(item => {
+                productsContainer.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-icon">${item.icon}</div>
+                        <div class="product-name">${item.name}</div>
+                        <div class="product-price">${item.price}</div>
+                        <a href="${item.link}" target="_blank" class="shop-link">View Details</a>
+                    </div>
+                `;
+            });
+        }
+
         function handleInventoryCheckpoint() {
             const choicesContainer = document.getElementById('choices-container');
             let checkpointText = "You step out into the ball room. ";
@@ -284,27 +351,29 @@
                 document.getElementById('story-text').innerText = checkpointText;
             }
 
-            // Create buttons leading to Layer 12 (The Final campfire)
             choicesContainer.innerHTML = `
-                <button class="game-btn" onclick="triggerEnding(12)">🔥 Step into Chapter 10: The Final Beach Fire</button>
+                <button class="game-btn" onclick="triggerEnding()">🔥 Step into Chapter 10: The Final Beach Fire</button>
             `;
+            updateDynamicStore('formal');
         }
 
-        // FINAL LAYER & DYNAMIC ENDING CALCULATOR
-        function triggerEnding(finalLayerNum) {
-            document.getElementById('layer-tracker').innerText = "Layer: 10/10 (The End)";
+        function triggerEnding() {
+            document.getElementById('layer-tracker').innerText = "Layer: 11/11 (The End)";
             let title = "";
             let desc = "";
 
             if (conradPoints > jerePoints) {
                 title = "🏆 Infinite Result: 100% Team Conrad Soulmate!";
-                desc = `With a final score of ${conradPoints} Conrad points, your summer was filled with deep stargazing conversations, hidden beach treasures, and a connection that time can't erase. You belong on the dock with Conrad!`;
+                desc = "With a final score of " + conradPoints + " Conrad points, your summer was filled with deep stargazing conversations, hidden beach treasures, and a connection that time can't erase. You belong on the dock with Conrad!";
+                updateDynamicStore('default'); // Load custom top book recommendations for fans
             } else if (jerePoints > conradPoints) {
                 title = "🏆 Infinite Result: 100% Team Jeremiah Golden-Hour!";
-                desc = `With a final score of ${jerePoints} Jeremiah points, your summer was an absolute blast of pool splashing, inside jokes, and endless loyalty. You and Jeremiah are the ultimate summer dream team!`;
+                desc = "With a final score of " + jerePoints + " Jeremiah points, your summer was an absolute blast of pool splashing, inside jokes, and endless loyalty. You and Jeremiah are the ultimate summer dream team!";
+                updateDynamicStore('boardwalk'); // Keep it energetic
             } else {
                 title = "🏆 Infinite Result: Cousin's Beach Independent Legend!";
                 desc = "You balanced the scale perfectly! You kept both brothers guessing, had your own epic adventures, and proved that you don't need to choose a team to own the beach.";
+                updateDynamicStore('default');
             }
 
             document.getElementById('story-text').innerHTML = `<h3>${title}</h3><p>${desc}</p><strong>The script randomly shifts items every reset. Can you unlock all three distinct endings?</strong>`;
@@ -322,7 +391,6 @@
             renderScene();
         }
 
-        // Kickoff the engine instantly on boot
         window.onload = renderScene;
     </script>
 </body>
