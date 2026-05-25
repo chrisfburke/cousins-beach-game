@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cousin's Beach: Infinite Summer</title>
+    <style>
+        /* CSS: Smooth coastal aesthetics with a dynamic layout */
+        body {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            color: #334155;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        .game-container {
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 40px;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #f8fafc;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #64748b;
+            border: 1px solid #f1f5f9;
+        }
+
+        h1 {
+            color: #0284c7;
+            font-size: 2.2rem;
+            margin: 10px 0;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            min-height: 80px; /* Prevents the box from jumping up and down */
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .game-btn {
+            background-color: #f0f9ff;
+            color: #0369a1;
+            border: 2px solid #bae6fd;
+            padding: 14px 20px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+        }
+
+        .game-btn:hover {
+            background-color: #fef3c7;
+            color: #b45309;
+            border-color: #fde68a;
+            transform: translateY(-2px);
+        }
+
+        /* Styling for the store at the bottom remains consistent */
+        .shop-banner {
+            max-width: 800px;
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+
+        .shop-title { color: #0f172a; font-size: 1.5rem; font-weight: 700; margin-bottom: 8px; }
+        .shop-subtitle { color: #64748b; font-size: 0.95rem; margin-bottom: 25px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+        .product-card { background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; transition: all 0.2s; }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 15px rgba(14, 165, 233, 0.1); }
+        .product-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .product-name { font-weight: 600; color: #1e293b; margin-bottom: 6px; }
+        .product-price { color: #0284c7; font-weight: 700; margin-bottom: 15px; }
+        .shop-link { display: inline-block; background-color: #0284c7; color: #ffffff; text-decoration: none; padding: 8px 16px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; width: 80%; }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- STATUS BAR: Tracks game progression live -->
+        <div class="status-bar">
+            <span id="display-tracker">Chapter: Intro</span>
+            <span id="inventory-tracker">🎒 Pocket: Empty</span>
+        </div>
+
+        <h1>🌊 Cousin's Beach Adventures</h1>
+        <p id="story-text">Loading your summer vacation...</p>
+        
+        <div class="button-container" id="choices-container">
+            <!-- Buttons will generate inside here automatically -->
+        </div>
+    </div>
+
+    <!-- AFFILIATE STORE -->
+    <footer class="shop-banner">
+        <div class="shop-title">🛍️ Get the Cousin's Beach Look</div>
+        <div class="shop-subtitle">Love the book vibes? Grab the official summer essentials below!</div>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-icon">📚</div>
+                <div class="product-name">The Complete Book Trilogy</div>
+                <div class="product-price">$24.99</div>
+                <a href="#" target="_blank" class="shop-link">View on Amazon</a>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">🧥</div>
+                <div class="product-name">Conrad's Team Sweatshirt</div>
+                <div class="product-price">$39.99</div>
+                <a href="#" target="_blank" class="shop-link">View Details</a>
+            </div>
+            <div class="product-card">
+                <div class="product-icon">🕶️</div>
+                <div class="product-name">Cousin's Retro Sunglasses</div>
+                <div class="product-price">$14.99</div>
+                <a href="#" target="_blank" class="shop-link">Shop Item</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JAVASCRIPT: The advanced game engine layout
+
+        // Game State Variables (What the game remembers while you play)
+        let inventoryItem = "Nothing";
+        let scoreConrad = 0;
+        let scoreJeremiah = 0;
+        let currentLevel = 1;
+
+        // RANDOMIZER DATA: Pools of events to choose from
+        const startingLocations = [
+            {
+                text: "You step out onto the back patio of the beach house. The night is perfectly warm. Down by the dark pool, you notice someone dropped a small item in the grass.",
+                opt1: "Pick up the sparkling silver charm necklace.",
+                opt2: "Pick up the forgotten vintage car keys.",
+                item1: "Silver Necklace",
+                item2: "Vintage Keys"
+            },
+            {
+                text: "You decide to clear your head by sneaking out to the beach dock. While walking, your foot kicks something buried in the soft sand.",
+                opt1: "Dig up a seashell with initials scratched into it.",
+                opt2: "Dig up a pair of classic retro sunglasses.",
+                item1: "Shell with Initials",
+                item2: "Retro Sunglasses"
+            }
+        ];
+
+        // START THE GAME
+        function startGame() {
+            inventoryItem = "Nothing";
+            scoreConrad = 0;
+            scoreJeremiah = 0;
+            currentLevel = 1;
+            
+            // Randomly select one of our two starting options
+            const randomIndex = Math.floor(Math.random() * startingLocations.length);
+            const startScene = startingLocations[randomIndex];
+
+            document.getElementById('display-tracker').innerText = "Chapter 1: The Discovery";
+            document.getElementById('inventory-tracker').innerText = "🎒 Pocket: Empty";
+            document.getElementById('story-text').innerText = startScene.text;
+
+            // Render choice buttons dynamically
+            document.getElementById('choices-container').innerHTML = `
+                <button class="game-btn" onclick="goToLevel2('${startScene.item1}', 'conrad')">🎒 ${startScene.opt1}</button>
+                <button class="game-btn" onclick="goToLevel2('${startScene.item2}', 'jeremiah')">🎒 ${startScene.opt2}</button>
+            `;
+        }
+
+        // LAYER 2: The Confrontation
+        function goToLevel2(chosenItem, characterPoint) {
+            inventoryItem = chosenItem;
+            currentLevel = 2;
+
+            // Award hidden character points based on your item select
+            if(characterPoint === 'conrad') scoreConrad += 2;
+            else scoreJeremiah += 2;
+
+            document.getElementById('display-tracker').innerText = "Chapter 2: The Beach House Encounter";
+            document.getElementById('inventory-tracker').innerText = `🎒 Pocket: ${inventoryItem}`;
+
+            let storyHTML = `As you slide the ${inventoryItem} into your pocket, flashlight beams slice through the dark! It's Conrad and Jeremiah. <br><br>`;
+            
+            if(inventoryItem === "Silver Necklace" || inventoryItem === "Shell with Initials") {
+                storyHTML += "Conrad looks right at you. 'Belly? I thought you were asleep. Hey... is that what I think it is?' He points to your hands.";
+                document.getElementById('story-text').innerHTML = storyHTML;
+                
+                document.getElementById('choices-container').innerHTML = `
+                    <button class="game-btn" onclick="goToLevel3('confess-conrad')">💬 Hand it over to Conrad and ask him what it means.</button>
+                    <button class="game-btn" onclick="goToLevel3('hide-conrad')">💬 Hide it behind your back and laughingly tell them it's a secret.</button>
+                `;
+            } else {
+                storyHTML += "Jeremiah bounds over, completely full of energy. 'Belly! Thank goodness you're out here, I can't find my stuff anywhere. Wait... what do you have there?'";
+                document.getElementById('story-text').innerHTML = storyHTML;
+
+                document.getElementById('choices-container').innerHTML = `
+                    <button class="game-btn" onclick="goToLevel3('share-jere')">💬 Toss the items to Jeremiah and dare him to a midnight pool race.</button>
+                    <button class="game-btn" onclick="goToLevel3('keep-jere')">💬 Keep them and suggest everyone jumps into the ocean right now instead.</button>
+                `;
+            }
+        }
+
+        // LAYER 3: The Climax Decisions
+        function goToLevel3(actionPath) {
+            currentLevel = 3;
+            document.getElementById('display-tracker').innerText = "Chapter 3: Midnight Magic";
+
+            let storyText = "";
+            let buttonHTML = "";
+
+            if (actionPath === 'confess-conrad') {
+                scoreConrad += 3;
+                storyText = "Conrad softens completely. He admits the item was meant as a special gift for you later this summer. The air feels electric, but suddenly Jeremiah calls out from the patio, breaking the moment! It's time for the annual Cousin's Beach bonfire.";
+            } else if (actionPath === 'hide-conrad') {
+                scoreJeremiah += 2;
+                storyText = "Your mysterious teasing makes them both laugh. Jeremiah challenges Conrad to see who can build the best bonfire while you play referee. You spend the rest of the night singing songs around the fire pit.";
+            } else if (actionPath === 'share-jere') {
+                scoreJeremiah += 3;
+                storyText = "Jeremiah cheers! You race into the pool, splashing wildly. Even moody Conrad can't help but sit by the edge and smile at your antics. Jeremiah whispers that he's happier than he's been all year.";
+            } else if (actionPath === 'keep-jere') {
+                scoreConrad += 2;
+                storyText = "You lead the pack running straight into the cold breaking ocean waves! You all freeze, laugh until your chests ache, and walk back up the dunes wrapped tightly under big blankets together.";
+            }
+
+            document.getElementById('story-text').innerHTML = storyText + "<br><br><strong>The summer is winding down... are you ready for the final campfire results?</strong>";
+            
+            document.getElementById('choices-container').innerHTML = `
+                <button class="game-btn" onclick="showEnding()">🔥 See my Cousin's Beach Fate!</button>
+            `;
+        }
+
+        // DYNAMIC ENDING GENERATOR: Calculates your perfect team profile!
+        function showEnding() {
+            document.getElementById('display-tracker').innerText = "The End of Summer";
+            let endingTitle = "";
+            let endingDescription = "";
+
+            // Evaluate the hidden scoring matrices
+            if (scoreConrad > scoreJeremiah) {
+                endingTitle = "🏆 Result: 100% Team Conrad Heartthrob!";
+                endingDescription = "You spent your summer deep in late-night talks, holding hands on the beach docks, and sharing sweet secrets under the stars. Your summer was dramatic, deep, and absolutely unforgettable!";
+            } else if (scoreJeremiah > scoreConrad) {
+                endingTitle = "🏆 Result: 100% Team Jeremiah Sunshine!";
+                endingDescription = "Your vacation was packed with non-stop laughter, poolside splashing, driving fast with the windows down, and pure fun. You are Jeremiah's ultimate partner-in-crime!";
+            } else {
+                endingTitle = "🏆 Result: Ultimate Cousin's Beach Rebel!";
+                endingDescription = "Why pick a team when you can have it all? You kept both boys guessing, spent your nights laughing with Taylor, and made sure this summer was 100% about your own independent adventures!";
+            }
+
+            document.getElementById('story-text').innerHTML = `<h3>${endingTitle}</h3><p>${endingDescription}</p><strong>Want to see what happens if you find a different item or make opposite choices? Click below!</strong>`;
+            
+            // Replay Button Hook
+            document.getElementById('choices-container').innerHTML = `
+                <button class="game-btn" style="text-align:center;" onclick="startGame()">🔄 Start a New Summer (Play Again!)</button>
+            `;
+        }
+
+        // Run the game automatically when the webpage loads!
+        window.onload = startGame;
+    </script>
+
+</body>
+</html>
